@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Air BnB Shop Online</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" />
+</head>
+<body>
+<th:block th:include="/_header"></th:block>
+<th:block th:include="/_menu"></th:block>
+
+<div class="page-title">Shopping Cart</div>
+<div class="demo-container">
+    <h3>Welcome</h3>
+    <ul>
+
+        <li><a th:href="@{/register}">tenant or renter registration</a></li>
+        <li><a th:href="@{/registerAdmin}">admin registration</a></li>
+    </ul>
+</div>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<th:block th:include="/_header"></th:block>
+<th:block th:include="/_menu"></th:block>
+
+<div class="page-title">Product List</div>
+
+<div class="product-preview-container" th:each="product : ${products}">
+    <ul>
+        <li><img class="product-image"
+                 th:src="@{|/productImage?code=${product.code}|}" /></li>
+        <li>Code: <span th:utext="${product.code}"></span></li>
+        <li>Name: <span th:utext="${product.name}"></span></li>
+        <li>Price: <span th:utext="${#numbers.formatDecimal(product.price,3,2,'COMMA')}"></span> $</li>
+        <li>Type: <span th:utext="${product.type}"></span></li>
+        <li>Adress: <span th:utext="${product.adress}"></span></li>
+        <li>Maximum Persons: <span th:utext="${product.persons}"></span></li>
+        <th:block sec:authorize="hasAnyRole('ROLE_TENANT','ROLE_RENTER','ROLE_ADMIN')" >
+        <li>
+            <a th:href="@{|/buyProduct?code=${product.code}|}">Buy Now</a>
+        </li>
+        </th:block>
+        <!-- For Manager edit Product -->
+        <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
+            <li>
+                <a style="color:red;"
+                   th:href="@{|/admin/product?code=${product.code}|}">Edit Product</a>
+            </li>
+        </th:block>
+        <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
+            <li>
+                <a style="color:red;"
+                   th:href="@{|/admin/prduct/${product.id}/delete|}">Delete Product</a>
+            </li>
+        </th:block>
+    </ul>
+</div>
+
+<br/>
+<div class="page-navigator" th:if="${products.totalPages > 1}">
+    <th:block th:each="page : ${#numbers.sequence( 1, products.totalPages, 1)}">
+
+        <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
+           class="nav-item" th:utext="${page}"></a>
+
+        <span class="nav-item" th:if="${page == -1}"> ... </span>
+
+    </th:block>
+</div>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

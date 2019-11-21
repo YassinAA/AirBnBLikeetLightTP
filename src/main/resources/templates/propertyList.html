@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Property List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<th:block th:include="/_header"></th:block>
+<th:block th:include="/_menu"></th:block>
+
+<div class="page-title">Property List</div>
+
+<div class="product-preview-container" th:each="property : ${properties}">
+    <ul>
+        <li><img class="product-image"
+                 th:src="@{|/productImage?code=${property.code}|}" /></li>
+        <li>Code: <span th:utext="${property.code}"></span></li>
+        <li>Name: <span th:utext="${property.name}"></span></li>
+        <li>Price: <span th:utext="${#numbers.formatDecimal(property.price,3,2,'COMMA')}"></span> $</li>
+        <li>Type: <span th:utext="${property.type}"></span></li>
+        <li>Adress: <span th:utext="${property.adress}"></span></li>
+        <li>Maximum Persons: <span th:utext="${property.persons}"></span></li>
+        <!-- For Manager edit Product -->
+        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_TENANT')">
+            <li>
+                <a style="color:red;"
+                   th:href="@{|/admin/product?code=${property.code}|}">Edit Product</a>
+            </li>
+            <li>
+                <a style="color:red;"
+                   th:href="@{|/admin/prduct/${property.id}/delete|}">Delete Product</a>
+            </li>
+        </th:block>
+    </ul>
+</div>
+
+<br/>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

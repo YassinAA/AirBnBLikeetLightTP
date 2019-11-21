@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<th:block th:include="/_header"></th:block>
+<th:block th:include="/_menu"></th:block>
+
+<div class="page-title">User List</div>
+<table border="1" style="width:100%">
+    <tr>
+        <th>Id</th>
+        <th>User Name</th>
+        <th>Last Name</th>
+        <th>First Address</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:utext="${user.userId}"></td>
+        <td th:utext="${user.userName}"></td>
+        <td th:utext="${user.lastName}"></td>
+        <td th:utext="${user.firstName}"></td>
+        <td th:utext="${user.email}"></td>
+        <td>
+            <span th:if="${user.active == true}"><a th:href="@{|/admin/user/${user.userId}/disable|}">ACTIVATE</a></span>
+            <span th:unless="${user.active == true}"><a th:href="@{|/admin/user/${user.userId}/activate|}">DISABLE</a></span>
+        </td>
+        <td><a th:href="@{|/admin/user/${user.userId}/delete|}">X</a></td>
+    </tr>
+</table>
+
+<div class="page-navigator" th:if="${users.totalPages > 1}">
+    <th:block th:each="page : ${#numbers.sequence( 1, users.totalPages, 1)}">
+
+        <a th:href="@{|/admin/userList?page=${page}|}" th:if="${page != -1}"
+           class="nav-item" th:utext="${page}"></a>
+
+        <span class="nav-item" th:if="${page == -1}"> ... </span>
+
+    </th:block>
+</div>
+
+<th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

@@ -15,4 +15,10 @@ public interface ProductRepository  extends JpaRepository<Product, Long>, Produc
     public Product findByCode(String code);
 
     public List<Product> findAllByUser(AppUser appUser);
+
+    @Query("SELECT p FROM Product p order by p.createDate desc ")
+    public List<Product> findAllOrderByCreateDate();
+
+    @Query("SELECT p FROM Product p order by p.price desc ")
+    public List<Product> findAllOrderByPrice();
 }

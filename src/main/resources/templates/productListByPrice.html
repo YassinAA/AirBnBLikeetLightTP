@@ -42,23 +42,13 @@
     </ul>
 </div>
 
-<br/>
-<div class="page-navigator" th:if="${products.totalPages > 1}">
-    <th:block th:each="page : ${#numbers.sequence( 1, products.totalPages, 1)}">
-
-        <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
-           class="nav-item" th:utext="${page}"></a>
-
-        <span class="nav-item" th:if="${page == -1}"> ... </span>
-
-    </th:block>
-</div>
-
 <select name="sort" onchange="location = this.value;">
     <option value="productList">Sort by</option>
     <option value="productListByPrice">Sort by Price</option>
     <option value="productListByDate">Sort by Date</option>
 </select>
+<br/>
+
 <th:block th:include="/_footer"></th:block>
 
 </body>

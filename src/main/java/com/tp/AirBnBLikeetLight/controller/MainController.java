@@ -101,6 +101,24 @@ public class MainController {
         return "productList";
     }
 
+    // Product List
+    @RequestMapping({ "/productListByPrice" })
+    public String listProductbyPrice(Model model) {
+
+        model.addAttribute("products",  productRepository.findAllOrderByPrice());
+
+        return "productListByPrice";
+    }
+
+    // Product List
+    @RequestMapping({ "/productListByDate" })
+    public String listProductbyDate(Model model) {
+
+        model.addAttribute("products",  productRepository.findAllOrderByCreateDate());
+
+        return "productListByDate";
+    }
+
     @RequestMapping({ "/buyProduct" })
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
